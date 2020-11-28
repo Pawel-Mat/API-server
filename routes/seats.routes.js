@@ -25,9 +25,15 @@ router.route('/seats/:id').get((req, res) => {
       client: client,
       email: email,
     };
+
+    if (db.seats.some(item => (item.seat === add.seat && item.day === add.day))) {
+      res.json({message: 'The slot is already taken...'});
+    } else {
     db.seats.push(add);
     res.json({ message: 'OK' });
+    }
   });
+
 
   router.route('/seats/:id').put((req, res) => {
     const {day, seat, client, email} = req.body;
